@@ -37,45 +37,79 @@
 
 class Superstar
 {
+    protected $arr;
     protected $name;
     protected $age;
     protected $amountFans;
 
-    public function __construct($name, $age, $amountFans)
+    public function __construct($arr)
     {
-        $this->name = $name;
-        $this->age = $age;
-        $this->amountFans = $amountFans;
+        $this->arr = json_decode($arr);
+        $this->name = $this->arr[0];
+        $this->age = $this->arr[1];
+        $this->amountFans = $this->arr[2];
     }
-    public function __set() {
-
-    }
-    public function showInfo()
-    {
-        echo $this->name . " " . $this->age . " " . $this->amountFans;
+    public function __toString() {
+        return "Имя: " . $this->name . PHP_EOL . "Возраст: " . $this->age . PHP_EOL . "Количество фанатов: " . $this->amountFans;
     }
 }
-
 class Singer extends Superstar
 {
-    public $amountAlboms;
-    public $rewards;
-    public $genreMusic;
+    private $amountAlboms;
+    private $rewards;
+    private $genreMusic;
 
-    public function __construct($name, $age, $amountFans, $amountAlboms, $rewards, $genreMusic)
+    public function __construct($arr)
     {
-        parent::__construct($name, $age, $amountFans);
-        $this->amountAlboms = $amountAlboms;
-        $this->rewards = $rewards;
-        $this->genreMusic = $genreMusic;
+        parent::__construct(json_decode($arr));
+        $this->amountAlboms = $this->arr[3];
+        $this->rewards = $this->arr[4];
+        $this->genreMusic = $this->arr[5];
     }
 
-    public function showInfo()
+    public function __toString()
     {
-        echo parent::showInfo() . " " . $this->amountAlboms . " " . $this->rewards . " " . $this->genreMusic;
+        return "Певец:" . PHP_EOL . parent::__toString() . PHP_EOL . "Количество проданных альбомов: " . $this->amountAlboms . PHP_EOL . "Количество наград: " . $this->rewards . PHP_EOL . "Жанр музыки: " . $this->genreMusic;
+    }
+}
+class Actor extends Superstar {
+    private $amountMovies;
+    private $rewards;
+    private $genreMovie;
+
+    public function __construct($arr)
+    {
+        parent::__construct(json_decode($arr));
+        $this->amountMovies = $this->arr[3];
+        $this->rewards = $this->arr[4];
+        $this->genreMovie = $this->arr[5];
+    }
+    public function __toString()
+    {
+        return "Актер:" . PHP_EOL . parent::__toString() . PHP_EOL . "Количество снятых фильмов: " . $this->amountMovies . PHP_EOL . "Количество наград: " . $this->rewards . PHP_EOL . "Жанр кино: " . $this->genreMovie;
+    }
+}
+class Dancer extends Superstar {
+    private $amountDancing;
+    private $rewards;
+    private $danceStyle;
+
+    public function __construct($arr)
+    {
+        parent::__construct(json_decode($arr));
+        $this->amountDancing = $this->arr[3];
+        $this->rewards = $this->arr[4];
+        $this->danceStyle = $this->arr[5];
+    }
+    public function __toString()
+    {
+        return "Танцор:" . PHP_EOL . parent::__toString() . PHP_EOL . "Количество выступлений: " . $this->amountDancing . PHP_EOL . "Количество наград: " . $this->rewards . PHP_EOL . "Стиль танца: " . $this->danceStyle;
     }
 }
 
-
-$singer1 = new Singer('andreu', 44, 33330, 99000, 3, 'pop');
-$singer1->showInfo();
+$singer = new Singer(json_encode(fgets(STDIN)));
+$actor = new Actor(json_encode(fgets(STDIN)));
+$dancer = new Dancer(json_encode(fgets(STDIN)));
+echo $singer . PHP_EOL;
+echo $actor . PHP_EOL;
+echo $dancer;
